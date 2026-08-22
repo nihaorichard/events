@@ -24,8 +24,8 @@
     /* NUMBER OF COLUMNS */
     --columns: 6;
 
-    /* NUMBER OF ROWS / EVENTS */
-    --events: 30;
+    /* NUMBER OF EVENTS TO SHOW */
+    --events: 35;
 
     /* CARD HEIGHT */
     --card-height: 290px;
@@ -42,10 +42,31 @@
     /* CARD CORNER */
     --radius: 8px;
 
+    /* =====================================================
+       CHANGE THESE COLORS
+       ===================================================== */
+
+    /* HEADER / VERANSTALTUNGEN BAR */
+    --title-bar-color: #e30613;
+
+    /* BACKGROUND BETWEEN CARDS */
+    --grid-background: #f8dede;
+
+    /* PAGE BACKGROUND */
+    --page-background: #f8dede;
+
+    /* CARD BACKGROUND */
+    --card-background: #ffffff;
+
+
+    /* =====================================================
+       TEXT SIZES
+       ===================================================== */
+
     /* CATEGORY */
     --category-size: 13px;
 
-    /* TITLE */
+    /* EVENT TITLE */
     --title-size: 20px;
 
     /* DATE */
@@ -76,6 +97,7 @@ body {
     padding: 0;
 
     width: 100%;
+
     min-height: 100%;
 
     font-family:
@@ -83,9 +105,11 @@ body {
         Helvetica,
         sans-serif;
 
-    background: #f1f2f4;
+    background:
+        var(--page-background);
 
-    color: #111;
+    color:
+        #111;
 
 }
 
@@ -96,7 +120,7 @@ body {
 
 .header {
 
-    height: 58px;
+    min-height: 58px;
 
     display: flex;
 
@@ -105,10 +129,14 @@ body {
     padding:
         0 var(--page-padding);
 
-    background: white;
+    background:
+        var(--title-bar-color);
+
+    color:
+        white;
 
     border-bottom:
-        1px solid #d5d5d5;
+        1px solid rgba(0,0,0,0.15);
 
 }
 
@@ -121,6 +149,9 @@ body {
 
     margin: 0;
 
+    color:
+        white;
+
 }
 
 
@@ -130,7 +161,8 @@ body {
 
     font-size: 12px;
 
-    color: #777;
+    color:
+        rgba(255,255,255,0.85);
 
 }
 
@@ -149,10 +181,33 @@ body {
             minmax(0, 1fr)
         );
 
-    gap: var(--gap);
+    gap:
+        var(--gap);
 
     padding:
         var(--page-padding);
+
+    /*
+     * IMPORTANT:
+     * The background is the color visible
+     * between the cards.
+     */
+
+    background:
+        var(--grid-background);
+
+    /*
+     * Allow the grid to grow to all events.
+     */
+
+    min-height:
+        calc(100vh - 58px);
+
+    height:
+        auto;
+
+    overflow:
+        visible;
 
 }
 
@@ -166,10 +221,11 @@ body {
     height:
         var(--card-height);
 
-    min-width: 0;
+    min-width:
+        0;
 
     background:
-        #ffffff;
+        var(--card-background);
 
     border-radius:
         var(--radius);
@@ -189,6 +245,25 @@ body {
     cursor:
         pointer;
 
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+}
+
+
+/* =========================================================
+   OPTIONAL CARD HOVER
+   ========================================================= */
+
+.event:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.18);
+
 }
 
 
@@ -198,14 +273,17 @@ body {
 
 .event-image {
 
-    width: 100%;
+    width:
+        100%;
 
     height:
         var(--image-height);
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
     background:
         #dddddd;
@@ -215,13 +293,17 @@ body {
 
 .event-image img {
 
-    width: 100%;
+    width:
+        100%;
 
-    height: 100%;
+    height:
+        100%;
 
-    display: block;
+    display:
+        block;
 
-    object-fit: cover;
+    object-fit:
+        cover;
 
 }
 
@@ -241,9 +323,11 @@ body {
     flex-direction:
         column;
 
-    flex: 1;
+    flex:
+        1;
 
-    min-height: 0;
+    min-height:
+        0;
 
 }
 
@@ -257,7 +341,8 @@ body {
     font-size:
         var(--category-size);
 
-    line-height: 1.2;
+    line-height:
+        1.2;
 
     color:
         #888888;
@@ -376,9 +461,11 @@ body {
 
 .no-image {
 
-    width: 100%;
+    width:
+        100%;
 
-    height: 100%;
+    height:
+        100%;
 
     display:
         flex;
@@ -444,28 +531,65 @@ body {
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 1100px) {
+/*
+ * Large screens:
+ * 6 columns
+ */
+
+@media (min-width: 1101px) {
 
     :root {
-        --columns: 3;
+
+        --columns: 6;
+
     }
 
 }
 
+
+/*
+ * Medium screens:
+ * 4 columns
+ */
+
+@media (max-width: 1100px) {
+
+    :root {
+
+        --columns: 4;
+
+    }
+
+}
+
+
+/*
+ * Smaller screens:
+ * 2 columns
+ */
 
 @media (max-width: 750px) {
 
     :root {
+
         --columns: 2;
+
     }
 
 }
 
 
+/*
+ * Phones:
+ * 1 column
+ */
+
 @media (max-width: 480px) {
 
     :root {
+
         --columns: 1;
+
     }
 
 }
@@ -525,19 +649,16 @@ const API_URL =
    NUMBER OF EVENTS
    =========================================================
 
-   16 = 4 × 4
+   CHANGE THIS NUMBER IF YOU WANT.
 
-   20 = 5 × 4
+   35 = maximum requested here.
 
-   24 = 6 × 4
-
-   32 = 8 × 4
-
-   You can change this independently from
-   the number of columns.
+   IMPORTANT:
+   This is the actual setting used by JavaScript.
+   The CSS --events variable is only informational.
    ========================================================= */
 
-const EVENT_COUNT = 16;
+const EVENT_COUNT = 35;
 
 
 /* =========================================================
@@ -576,7 +697,8 @@ async function loadEvents() {
 
         const response =
             await fetch(
-                API_URL + "?t=" +
+                API_URL +
+                "?t=" +
                 Date.now()
             );
 
@@ -610,8 +732,14 @@ async function loadEvents() {
 
 
         /*
-         * Take only the number
-         * requested above.
+         * Take the requested number
+         * from the Worker.
+         *
+         * If Worker has 25 events,
+         * all 25 are shown.
+         *
+         * If Worker has 35 events,
+         * all 35 are shown.
          */
 
         const events =
@@ -622,12 +750,16 @@ async function loadEvents() {
 
 
         /*
-         * Draw the cards.
+         * Clear old cards.
          */
 
         container.innerHTML =
             "";
 
+
+        /*
+         * No events.
+         */
 
         if (
             events.length === 0
@@ -639,7 +771,14 @@ async function loadEvents() {
                 </div>
             `;
 
-        } else {
+        }
+
+
+        /*
+         * Create cards.
+         */
+
+        else {
 
             for (
                 const event
@@ -658,7 +797,7 @@ async function loadEvents() {
 
 
         /*
-         * Status
+         * Status.
          */
 
         const now =
@@ -729,13 +868,15 @@ function createEventCard(
 
     /*
      * Clicking the card opens
-     * the original Weimar page.
+     * the original event page.
      */
 
     card.onclick =
         function () {
 
-            if (event.url) {
+            if (
+                event.url
+            ) {
 
                 window.open(
                     event.url,
@@ -761,7 +902,9 @@ function createEventCard(
         "event-image";
 
 
-    if (event.image) {
+    if (
+        event.image
+    ) {
 
         const image =
             document.createElement(
@@ -774,7 +917,8 @@ function createEventCard(
 
 
         image.alt =
-            event.title || "";
+            event.title ||
+            "";
 
 
         image.loading =
@@ -787,7 +931,7 @@ function createEventCard(
                 imageContainer.innerHTML =
                     `<div class="no-image">
                         Kein Bild
-                     </div>`;
+                    </div>`;
 
             };
 
@@ -796,12 +940,14 @@ function createEventCard(
             image
         );
 
-    } else {
+    }
+
+    else {
 
         imageContainer.innerHTML =
             `<div class="no-image">
                 Kein Bild
-             </div>`;
+            </div>`;
 
     }
 
@@ -820,11 +966,13 @@ function createEventCard(
         "event-content";
 
 
-    /*
-     * CATEGORY
-     */
+    /* =====================================================
+       CATEGORY
+       ===================================================== */
 
-    if (event.category) {
+    if (
+        event.category
+    ) {
 
         const category =
             document.createElement(
@@ -847,9 +995,9 @@ function createEventCard(
     }
 
 
-    /*
-     * TITLE
-     */
+    /* =====================================================
+       TITLE
+       ===================================================== */
 
     const title =
         document.createElement(
@@ -871,9 +1019,9 @@ function createEventCard(
     );
 
 
-    /*
-     * DATE + TIME
-     */
+    /* =====================================================
+       DATE + TIME
+       ===================================================== */
 
     if (
         event.date ||
@@ -890,22 +1038,27 @@ function createEventCard(
             "event-date";
 
 
-        let dateText = "";
+        let dateText =
+            "";
 
 
-        if (event.date) {
+        if (
+            event.date
+        ) {
 
             dateText +=
-                formatDate(
-                    event.date
-                );
+                event.date;
 
         }
 
 
-        if (event.time) {
+        if (
+            event.time
+        ) {
 
-            if (dateText) {
+            if (
+                dateText
+            ) {
 
                 dateText +=
                     " · ";
@@ -932,9 +1085,9 @@ function createEventCard(
     }
 
 
-    /*
-     * DESCRIPTION
-     */
+    /* =====================================================
+       DESCRIPTION
+       ===================================================== */
 
     if (
         event.description
@@ -961,12 +1114,9 @@ function createEventCard(
     }
 
 
-    /*
-     * PRICE
-     *
-     * Only displayed when Worker
-     * has returned a positive price.
-     */
+    /* =====================================================
+       PRICE
+       ===================================================== */
 
     if (
         event.price &&
@@ -996,9 +1146,9 @@ function createEventCard(
     }
 
 
-    /*
-     * Assemble card.
-     */
+    /* =====================================================
+       ASSEMBLE CARD
+       ===================================================== */
 
     card.appendChild(
         imageContainer
@@ -1016,59 +1166,6 @@ function createEventCard(
 
 
 /* =========================================================
-   DATE FORMAT
-   ========================================================= */
-
-function formatDate(
-    value
-) {
-
-    /*
-     * Worker already returns
-     * dd.mm.yyyy.
-     */
-
-    if (
-        /^\d{2}\.\d{2}\.\d{4}$/.test(
-            value
-        )
-    ) {
-
-        return value;
-
-    }
-
-
-    /*
-     * Fallback if Worker returns
-     * another date format.
-     */
-
-    const date =
-        new Date(
-            value
-        );
-
-
-    if (
-        isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return value;
-
-    }
-
-
-    return date.toLocaleDateString(
-        "de-DE"
-    );
-
-}
-
-
-/* =========================================================
    TIME FORMAT
    ========================================================= */
 
@@ -1076,17 +1173,14 @@ function formatTime(
     value
 ) {
 
-    if (!value) {
+    if (
+        !value
+    ) {
+
         return "";
+
     }
 
-
-    /*
-     * Remove an existing "Uhr"
-     * so we don't get:
-     *
-     * 16:00 Uhr Uhr
-     */
 
     return value
         .replace(
@@ -1145,22 +1239,27 @@ function escapeHTML(
     return String(
         value
     )
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
